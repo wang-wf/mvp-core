@@ -23,6 +23,8 @@ public abstract class MVPActivity<D extends ViewDataBinding, P extends BasePrese
 
         mDataBinding = DataBindingUtil.setContentView(this, createLayout());
         mPresenter = createPresenter();
+
+        getLifecycle().addObserver(mPresenter);
     }
 
     public abstract int createLayout();

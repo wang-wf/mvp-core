@@ -19,11 +19,18 @@ public abstract class MVPFragment<D extends ViewDataBinding, P extends BasePrese
     protected D mDataBinding;
     protected P mPresenter;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mPresenter = createPresenter();
+        getLifecycle().addObserver(mPresenter);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mDataBinding = DataBindingUtil.inflate(inflater, createLayout(), container, false);
-        mPresenter = createPresenter();
 
         return mDataBinding.getRoot();
     }
