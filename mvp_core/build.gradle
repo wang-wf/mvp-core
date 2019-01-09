@@ -1,0 +1,67 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion Integer.parseInt(COMPILE_SDK_VERSION)
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(VERSION_CODE)
+        versionName VERSION_NAME
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$KORLIN_VERSION"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KORLIN_VERSION"
+    implementation "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
+    implementation "com.android.support:recyclerview-v7:$SUPPORT_LIB_VERSION"
+    implementation "android.arch.lifecycle:extensions:$ARCH_LIFECYCLE_VERSION"
+    testImplementation "junit:junit:$JUNIT_VERSION"
+    androidTestImplementation "com.android.support.test:runner:$RUNNER_VERSION"
+}
+
+//--------- 我是傲娇的分割线，下面是控制生成jar包的脚本 ---------
+
+def fileName = "mvp-core-" + VERSION_NAME + ".jar"
+
+//生成jar包，调用原有功能打包，然后复制到指定目录并重命名
+task makeJar(dependsOn:['createFullJarRelease'], type: Copy) {
+//    dependsOn 'createFullJarRelease'  //也可以用这句话
+    delete 'build/' + fileName
+    from 'build/intermediates/full_jar/release/createFullJarRelease/'
+    into 'build/'
+    include 'full.jar'
+    rename ('full.jar', fileName)
+}
+
+//生成混淆过后的jar包
+task makeJarWithProguard(dependsOn:['makeJar'], type: proguard.gradle.ProGuardTask) {
+    delete 'build/p_' + fileName
+    injars 'build/' + fileName
+    outjars 'build/p_' + fileName
+
+    configuration 'proguard-rules.pro'
+}
