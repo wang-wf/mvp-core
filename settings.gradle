@@ -1,1 +1,1 @@
-include ':app', ':mvp_core', ':mvp_inject'
+include ':mvp_core'
