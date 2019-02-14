@@ -2,6 +2,7 @@ package com.wwf.mvp_core
 
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 /**
  * Created by Administrator on 2018/11/19
@@ -11,6 +12,10 @@ interface BaseModel
 
 interface BaseView {
     fun toast(text: String)
+    fun showProgress()
+    fun showProgress(text: String)
+    fun closeProgress()
+    fun onData(action: String, data: JvmType.Object)
 }
 
 /**
@@ -25,10 +30,19 @@ class WFViewHolder<V : ViewDataBinding>(val mDataBinding: V) : RecyclerView.View
 class ASimpleModel : BaseModel
 
 class ASimpleView : BaseView {
+
     override fun toast(text: String) { }
+
+    override fun showProgress() { }
+
+    override fun showProgress(text: String) { }
+
+    override fun closeProgress() { }
+
+    override fun onData(action: String, data: JvmType.Object) { }
 }
 
-class ASimplePresenter(view: BaseView) : BasePresenter<BaseModel, BaseView>(view) {
+class ASimplePresenter(view: BaseView) : BasePresenter<BaseModel>(view) {
     override fun createModel(): BaseModel {
         return ASimpleModel()
     }

@@ -24,7 +24,7 @@ public abstract class MVPFragment<D extends ViewDataBinding, P extends BasePrese
         super.onCreate(savedInstanceState);
 
         mPresenter = createPresenter();
-        getLifecycle().addObserver(mPresenter);
+        if(null != mPresenter) getLifecycle().addObserver(mPresenter);
     }
 
     @Nullable

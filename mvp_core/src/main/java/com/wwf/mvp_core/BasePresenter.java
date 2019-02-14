@@ -5,11 +5,11 @@ import android.arch.lifecycle.LifecycleObserver;
 /**
  * create by wenfeng.wang on 2019/1/7
  */
-public abstract class BasePresenter<M extends BaseModel, V extends BaseView> implements LifecycleObserver {
+public abstract class BasePresenter<M extends BaseModel> implements LifecycleObserver {
     protected M model;
-    protected V view;
+    protected BaseView view;
 
-    public BasePresenter(V view) {
+    public BasePresenter(BaseView view) {
         this.view = view;
         this.model = createModel();
     }
