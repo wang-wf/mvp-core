@@ -14,7 +14,7 @@ interface BaseView {
     fun showProgress()
     fun showProgress(text: String)
     fun closeProgress()
-    fun onData(action: String, data: Any)
+    fun onData(action: String, vararg data: Any)
 }
 
 /**
@@ -38,7 +38,7 @@ class ASimpleView : BaseView {
 
     override fun closeProgress() { }
 
-    override fun onData(action: String, data: Any) { }
+    override fun onData(action: String, vararg data: Any) { }
 }
 
 class ASimplePresenter(view: BaseView) : BasePresenter<BaseModel>(view) {
