@@ -2,7 +2,6 @@ package com.wwf.mvp_core
 
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 /**
  * Created by Administrator on 2018/11/19
@@ -15,7 +14,7 @@ interface BaseView {
     fun showProgress()
     fun showProgress(text: String)
     fun closeProgress()
-    fun onData(action: String, data: JvmType.Object)
+    fun onData(action: String, data: Any)
 }
 
 /**
@@ -39,7 +38,7 @@ class ASimpleView : BaseView {
 
     override fun closeProgress() { }
 
-    override fun onData(action: String, data: JvmType.Object) { }
+    override fun onData(action: String, data: Any) { }
 }
 
 class ASimplePresenter(view: BaseView) : BasePresenter<BaseModel>(view) {
